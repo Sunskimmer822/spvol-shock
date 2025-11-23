@@ -26,6 +26,6 @@ trigger_duration = 0.3
 #somewhat more advanced! change at your own risk.
 breakout_keycode = 27 #default: ESC
 
-#boring stuff that you truly dont need to change
+#boring stuff that you truly dont need to change ever
 helptext_color = "\033[1m"
 reset_color = "\033[0m"

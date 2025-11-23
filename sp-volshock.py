@@ -1,21 +1,29 @@
-import msvcrt,sys,pyaudio,time
+import sys,pyaudio,time
 from math import log10
 #ts deprecated as of python 3.13!!!!!!!!!! pip install audioop-lts !!!!!!!!!!!!
 import audioop
 #ts not built in!!!!!!!!!!! pip install pishock !!!!!!!!!!!!
 from pishock import PiShockAPI
 import environment as env
+#TODO: add Linux detection and implementation of getch() from https://code.activestate.com/recipes/572182-how-to-implement-kbhit-on-linux/ and switch based on
+if not sys.platform.startswith("win"):
+    #running on linux. (we dont implement mac in this house!! someone else can do that if they really need) use own getch()
+    pass
+else:
+    #running on windows. use msvcrt
+    pass
+import msvcrt
 
 def send_help():
-    print(f"Incorrect usage. See {env.helptext_color}python ./volshocker.py --help{env.reset_color} for help.")
+    print(f"Incorrect usage. See {env.helptext_color}python ./sp-volshock.py --help{env.reset_color} for help.")
 
 def send_help_and_abort():
-    print(f"Incorrect usage. See {env.helptext_color}python ./volshocker.py --help{env.reset_color} for help. Exiting.")
+    print(f"Incorrect usage. See {env.helptext_color}python ./sp-volshock.py --help{env.reset_color} for help. Exiting.")
     sys.exit(1)
 
 def print_help():
     print(
-        f"Usage: python ./volshocker.py [OPTION]...\n\n"
+        f"Usage: python ./sp-volshock.py [OPTION]...\n\n"
         
         f"Options:\n\n"
         
@@ -87,6 +95,8 @@ for i in range(len(sys.argv)):
         if duration<0: duration = 0
         if duration>15: duration = 15
         env.trigger_duration = duration
+    elif arg == "-k" or arg == "--interrupt-keycode":
+        env.breakout_keycode = int(next_arg)
     elif arg == "-u" or arg == "--username":
         env.username = next_arg
     elif arg == "-a" or arg == "--api-key":
