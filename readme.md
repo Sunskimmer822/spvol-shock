@@ -29,4 +29,4 @@ sp-volshock supports full configuration from the command line. To configure sp-v
 
 
 # Contribution
-When you make a pull request, please ensure that the username, api_key, and share_code fields in `environment.py` are empty Strings, or your request may not be merged.
+When you make a pull request, please ensure that the `username`, `api_key`, and `share_code` fields in `environment.py` are empty Strings, or your request may not be merged.
