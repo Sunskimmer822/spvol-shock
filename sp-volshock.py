@@ -5,14 +5,24 @@ import audioop
 #ts not built in!!!!!!!!!!! pip install pishock !!!!!!!!!!!!
 from pishock import PiShockAPI
 import environment as env
-#TODO: add Linux detection and implementation of getch() from https://code.activestate.com/recipes/572182-how-to-implement-kbhit-on-linux/ and switch based on
+
+#make kbhit() and getch() hopefully platform agnostic (dont care about mac though) by unifying under our own functions
 if not sys.platform.startswith("win"):
-    #running on linux. (we dont implement mac in this house!! someone else can do that if they really need) use own getch()
-    pass
+    # running on linux. (we dont implement mac in this house!! someone else can do that if they really need) use own getch()
+    from select import select
+    def kbhit():
+        dr, dw, de = select([sys.stdin], [], [], 0)
+        return dr != []
+    def getch():
+        return sys.stdin.read(1)
+
 else:
     #running on windows. use msvcrt
-    pass
-import msvcrt
+    import msvcrt
+    def getch():
+        return msvcrt.getch()[0]
+    def kbhit():
+        return msvcrt.kbhit()
 
 def send_help():
     print(f"Incorrect usage. See {env.helptext_color}python ./sp-volshock.py --help{env.reset_color} for help.")
@@ -186,7 +196,7 @@ measurement_delay = 0.3
 
 while stream.is_active():
     #abort the loop by holding the break key (ESC by default)
-    if msvcrt.kbhit() and msvcrt.getch()[0] == 27:
+    if kbhit() and getch() == env.breakout_keycode:
         #loop broke! I'm out of here!
         print("Keyboard interrupt caught. Exiting shocker loop.")
         break
