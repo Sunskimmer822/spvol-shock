@@ -48,7 +48,7 @@ def print_help():
         f"      Options: String\n"
         f"      Example: -a 00000000-0000-0000-00000-000000000000\n\n"
         
-        f"   {env.helptext_color}-s, --share-code{env.reset_color}\n"
+        f"   {env.helptext_color}-c, --share-code{env.reset_color}\n"
         f"      Set the pishock shocker share code used to control the shocker.\n"
         f"      Find this at https://pishock.com/#/control -> Share.\n"
         f"      Options: String\n"
